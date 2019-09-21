@@ -4,5 +4,10 @@ var user={
         $.post(url+'/admin/login',{user_name:userName,password:password},function(res){
             callBack(res);
         })
-    }
+    },
+    login_out:function(callBack){
+        $.post(url+'/admin/logout',function(res){
+            callBack(res);
+        })
+    },
 }

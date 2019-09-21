@@ -63,7 +63,26 @@
     <div class="main" id="main_body">
       <iframe src="main_count.html" frameborder="0" id="main_frame" name="main_frame" frameborder="0" scrolling="auto"></iframe>
     </div>
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">提示信息</h4>
+            </div>
+            <div class="modal-body">
+              <p>你确定要退出吗？</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">我还没想好</button>
+              <button type="button" class="btn btn-primary" id="login_out_btn">确定</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
     <script src="./js/lib/jquery-1.12.4.min.js"></script>
+    <script src="./js/utils/user.js"></script>
+    <script src="./js/bootstrap/js/bootstrap.min.js"></script>
     <script>
       var $level01 = $('.level01');
       var $subli = $('.level02 li');
@@ -135,6 +154,31 @@
             .removeClass('active');
         }
       }
+    </script>
+
+    <script>
+      /**
+       * 思路：
+       * 1.给退出按钮注册点击事件
+       * 2.发送ajax请求 并弹出选项框
+       * 3.判断选项框
+      */
+
+      // 1.给退出按钮注册点击事件
+      $('#btnLogout').click(function(){
+        // 发送ajax请求 并弹出选项框
+        user.login_out(function(res){
+          $('#myModal').modal('show');
+          // 3.判断选项框
+          $('#login_out_btn').click(function(){
+            window.location.href='./login.html'
+          })
+           
+          
+         
+         
+        })
+      })
     </script>
   </body>
 </html>
