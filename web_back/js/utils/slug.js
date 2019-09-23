@@ -17,5 +17,10 @@ var slug={
         $.post(url+'/admin/category_delete',{id:id},function(res){
             callBack(res);
         })
+    },
+    edit:function(id,name,slug,callBack){
+        $.post(url+'/admin/category_edit',{id:id,name:name,slug:slug},function(res){
+            callBack(res);
+        })
     }
 }
