@@ -22,5 +22,6 @@ var slug={
         $.post(url+'/admin/category_edit',{id:id,name:name,slug:slug},function(res){
             callBack(res);
         })
-    }
+    },
+    
 }
