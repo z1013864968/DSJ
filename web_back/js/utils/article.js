@@ -10,5 +10,9 @@ var article={
         $.get(url+'/admin/article_delete',{id:id},function(res){
             callBack(res);
         })
+    },
+    edit:function(param,callBack){
+        $.post()
     }
+//     http://localhost:8000/admin/article_edit
 }
