@@ -76,7 +76,7 @@
             <td class="text-center">{{item.state}}</td>
             <td class="text-center">
                 <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
-                <a href="javascript:deleteTr( 1005 );" class="btn btn-danger btn-xs">删除</a>
+                <a href="javascript:;" data-id="{{item.id}}" class="btn btn-danger btn-xs del">删除</a>
             </td>
         </tr>
         {{/each}}
@@ -90,11 +90,11 @@
 
     <script>
         $(function () {
-            getShow();
+
             var type = '';
             var state = '';
             var currentPageNumber = 1;
-
+            getShow();
             // 下拉列表框
             slug.search(function (res) {
                 $('#selCategory').html(template('tmp_select', res));
@@ -106,6 +106,20 @@
                 // 获取 所有状态的值
                 state = $('#selStatus').val();
                 getShow();
+            })
+
+            // 删除
+            $('#tbody').on('click', '.del', function () {
+                if(!window.confirm('你确定要删除吗')){
+                    return;
+                }
+                var id = $(this).attr('data-id')
+                article.del(id,function(res){
+                    console.log(res)
+                    if(res.code===200){
+                        getShow();
+                    }
+                })
             })
 
             // 显示内容
