@@ -22,19 +22,13 @@
             <div class="row opt_btns">
                 <div class="col-xs-6">
                     <form class="form-inline">
-                        <select id="selCategory" name="" class="form-control input-sm">
-                            <option>所有分类</option>
-                            <option>未分类</option>
-                            <option>奇趣事</option>
-                            <option>会生活</option>
-                            <option>爱旅行</option>
-                        </select>
+                        <select id="selCategory" name="" class="form-control input-sm"></select>
                         <select id="selStatus" name="" class="form-control input-sm">
-                            <option>所有状态</option>
-                            <option value="drafted">草稿</option>
-                            <option value="published">已发布</option>
+                            <option value="">所有状态</option>
+                            <option value="草稿">草稿</option>
+                            <option value="已发布">已发布</option>
                         </select>
-                        <button id="btnSearch" class="btn btn-default btn-sm">筛选</button>
+                        <button id="btnSearch" type="button" class="btn btn-default btn-sm">筛选</button>
                     </form>
                 </div>
                 <div class="col-xs-6">
@@ -78,7 +72,7 @@
             <td>{{item.title}}</td>
             <td>{{item.author}}</td>
             <td>{{item.type}}</td>
-            <td class="text-center">{{item.data}}</td>
+            <td class="text-center">{{item.date}}</td>
             <td class="text-center">{{item.state}}</td>
             <td class="text-center">
                 <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
@@ -87,23 +81,44 @@
         </tr>
         {{/each}}
     </script>
+    <script id="tmp_select" type="text/html">
+        <option value="">所有分类</option>
+        {{each data item}}
+        <option value={{item.id}}>{{item.name}}</option>
+        {{/each}}
+    </script>
 
     <script>
         $(function () {
             getShow();
-            var currentPageNumber=1;
+            var type = '';
+            var state = '';
+            var currentPageNumber = 1;
 
+            // 下拉列表框
+            slug.search(function (res) {
+                $('#selCategory').html(template('tmp_select', res));
+            })
+            // 给筛选添加注册事件
+            $('#btnSearch').click(function () {
+                // 获取 所有分类的id值
+                type = $('#selCategory').val();
+                // 获取 所有状态的值
+                state = $('#selStatus').val();
+                getShow();
+            })
 
-
-            
             // 显示内容
             function getShow() {
-                article.search({page:currentPageNumber}, function (res) {
+                article.search({
+                    page: currentPageNumber,
+                    type: type,
+                    state: state
+                }, function (res) {
                     if (!res.code === 200) {
                         return;
                     }
                     $('#tbody').html(template('tmp', res));
-
                     // 分页效果
                     $('.pagination').twbsPagination({
                         totalPages: res.totalPage, // 总页数，可以通过翻页，或者最后一页
